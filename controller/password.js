@@ -37,7 +37,7 @@ exports.passwordReset = async (req, res, next) => {
             to: email,
             subject: 'Password Reset',
             text: `This is your link to change the password 🔑🔗
-                http://localhost:3000/password/resetPassword/${uuid}`
+                http://16.171.5.97:3000/password/resetPassword/${uuid}`
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
@@ -67,13 +67,9 @@ exports.getPassword = async (req, res, next) => {
             .then(requests => {
                 if (requests[0]) {
                     if (requests[0].isactive === true) {
-                        // const url=window.location.href;
-                        // const uuid=url.slice(45);
-                        console.log('User exists');
-                        // return res.redirect("http://127.0.0.1:5500/views/password-form.html?data="+id);
+                        // console.log('User exists');
                         return res.redirect("https://ritik2102.github.io/expense-tracker--password-form/?data="+id);
-                        // res.send(`<h1 id="expense-heading">Expense Tracker</h1><form class="login-form" method="POST" onsubmit="http://localhost:3000/password/setPassword/"><label for="password">Enter new password:</label><br><input class="form-input" id="password" type="password" required /><br><label for="password">Confirm your password:</label><br><input class="form-input" id="confirm-password" type="password" required /><input type="text" value=${uuid} hidden><br><button type="submit">Submit</button></form><a id="success-login" href="http://127.0.0.1:5500/views/login.html" >Login now</a>`)
-                    }
+                        }
                     else {
                         res.json({ "result": "Request is inactive" })
                     } 
