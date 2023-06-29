@@ -63,7 +63,7 @@ exports.postUser = (req, res, next) => {
                 })
                 .catch(err => {
                     const error = err.errors[0].message;
-                    res.status(201).json({ resData: error });
+                    res.status(201).json({ resData: "error" });
                 })
         })
     }

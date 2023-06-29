@@ -7,6 +7,7 @@ const ForgotPasswordRequests=sequelize.define('forgot_password_requests',{
         primaryKey:true,
         allowNull:false
     },
+    email:Sequelize.STRING,
     userId:Sequelize.INTEGER,
     isactive:Sequelize.BOOLEAN
     });

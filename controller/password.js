@@ -1,6 +1,11 @@
 const { createTransport } = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
+if(typeof localStorage==='undefined'|| localStorage===null){
+    const  LocalStorage  = require('node-localstorage').LocalStorage;
+    localStorage = new LocalStorage('./scratch');
+}
+
 // const transporter
 // const resetFile=require('../views/login.html');
 const path = require('path');
@@ -37,7 +42,7 @@ exports.passwordReset = async (req, res, next) => {
             to: email,
             subject: 'Password Reset',
             text: `This is your link to change the password 🔑🔗
-                http://16.171.5.97:3000/password/resetPassword/${uuid}`
+                http://localhost:3000/password/resetPassword/${uuid}`
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
@@ -46,7 +51,7 @@ exports.passwordReset = async (req, res, next) => {
             } else {
                 console.log('Email sent' + info.response);
                 // console.log(info);
-                ForgotPasswordRequests.create({ id: uuid, userId: userId, isactive: true })
+                ForgotPasswordRequests.create({ id: uuid, userId: userId, email:email,isactive: true })
                     .then(result => {
                         res.status(201).json({ "success": true });
                     })
@@ -63,12 +68,15 @@ exports.passwordReset = async (req, res, next) => {
 exports.getPassword = async (req, res, next) => {
     try {
         const id = req.params.uuid;
+        // console.log(id);
+       localStorage.setItem("uuid",id);
+       console.log(localStorage.getItem("uuid"));
         ForgotPasswordRequests.findAll({ where: { id: id } })
             .then(requests => {
                 if (requests[0]) {
                     if (requests[0].isactive === true) {
-                        // console.log('User exists');
                         return res.redirect("https://ritik2102.github.io/expense-tracker--password-form/?data="+id);
+                        // return res.redirect("http://localhost:3000/password-form/password-form.html");
                         }
                     else {
                         res.json({ "result": "Request is inactive" })
@@ -97,6 +105,7 @@ exports.postPassword = async (req, res, next) => {
 
         ForgotPasswordRequests.findOne({ where: { id: uuid } })
             .then(request => {
+                console.log(request);
                 bcrypt.hash(password, 10, (err, hash) => {
                     User.update({
                         password: hash
