@@ -42,7 +42,7 @@ exports.passwordReset = async (req, res, next) => {
             to: email,
             subject: 'Password Reset',
             text: `This is your link to change the password 🔑🔗
-                http://localhost:3000/password/resetPassword/${uuid}`
+                http://16.171.14.136:3000/password/resetPassword/${uuid}`
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
