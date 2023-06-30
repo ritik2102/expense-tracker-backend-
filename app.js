@@ -51,12 +51,6 @@ app.use('/purchase',purchaseRoutes);
 app.use('/premium',premiumRoutes);
 app.use('/password',passwordRoutes);
 
-app.use((req,res)=>{
-  res.sendFile(path.join(__dirname,`public${req.url}`));
-  // res.sendFile(path.join(__dirname,`public/password-form/password-form.html`));
-})
-
-
 const User=require('./model/user');
 const Expense=require('./model/expense');
 const Order=require('./model/order');
