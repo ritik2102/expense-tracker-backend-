@@ -76,9 +76,9 @@ exports.getExpenses = (req, res, next) => {
         // if date exists
         if (req.query.date) {
             const page = +req.query.page;
-            const date = req.query.date;
+            const date = +req.query.date;
             const month = +req.query.month - 1;
-            const year = req.query.year;
+            const year = +req.query.year;
             const numRows=+req.query.numRows;
 
             let totalItems;
@@ -115,7 +115,7 @@ exports.getExpenses = (req, res, next) => {
 
             const page = +req.query.page;
             const month = +req.query.month - 1;
-            const year = req.query.year;
+            const year = +req.query.year;
             const numRows=+req.query.numRows;
             let totalItems;
             Expense.count({where: { userId: req.user.id,  month: month, year: year }})
@@ -147,7 +147,7 @@ exports.getExpenses = (req, res, next) => {
         // if only year exists in req.query
         else {
             const page = +req.query.page;
-            const year = req.query.year;
+            const year = +req.query.year;
             const numRows=+req.query.numRows;
             let totalItems;
             Expense.count({where: { userId: req.user.id,year: year }})
